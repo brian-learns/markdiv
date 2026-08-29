@@ -6,6 +6,14 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="" />
   <link rel="icon" href="favicon.ico">
+  <script>
+    // Apply the saved theme (or the system preference) before first paint.
+    (function () {
+      var stored = localStorage.getItem("markdiv-theme");
+      var theme = stored || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
   <link rel="stylesheet" href="./dist/markdiv.min.css">
   <script src="./dist/markdiv.min.js"></script>
 </head>
@@ -18,23 +26,87 @@
     <li><a href="/contact">Contact</a></li>
   </ul>
 </nav>
-  <h1>Hello, world!</h1>
+  <h1>markdiv</h1>
   <section data-format="markdown">
 
-# This should actually show as an h2
-some *mark* _down_
+# A tiny markdown blog engine
 
-[a link](http://example.com)
- * item
- * item
+Everything below this line is plain markdown in a single `data-format="markdown"` element — the `#` heading renders as a `&lt;h2&gt;` so it nests under the page title. Mix in *emphasis*, **strong text**, ~~strikethrough~~, and `inline code` freely.
+
+## Text and lists
+
+Unordered lists, with **bold**, *italics*, and [links](https://example.com):
+
+ * first item
+ * second item, with a [nested link](https://marked.js.org)
+
+Ordered lists work too:
+
+ 1. write some markdown
+ 2. `npm run build`
+ 3. `npm run deploy`
+
+> Blockquotes are great for pull quotes, credits, or a word of warning.
+
+## Code
+
+Fenced blocks are syntax-highlighted, and the code theme is inverted against the page theme — toggle the switch in the footer:
 
 ```python
-import fu from bar
+def hello(name: str) -> str:
+    """Greet someone, politely."""
+    return f"Hello, {name}!"
 ```
 
+```bash
+npm run build   # bundles JS + CSS into dist/
+npm run deploy  # publishes dist/ to GitHub Pages
+```
+
+## Tables and tasks
+
+| Syntax           | Result                  |
+| ---------------- | ----------------------- |
+| `**bold**`       | **bold**                |
+| `*italic*`       | *italic*                |
+| `` `code` ``     | `code`                  |
+| `> quote`        | > quote                 |
+
+- [x] render markdown in place
+- [x] syntax-highlighted code blocks
+- [ ] your first post
+
+---
+
+Built with [marked](https://marked.js.org), [highlight.js](https://highlightjs.org/), and [Pico CSS](https://picocss.com/).
   </section>
   <footer>
 	  this is the footer
+
+	  <label> reverse light/dark theme
+          <input type="checkbox" role="switch" id="themeSwitch" />
+          </label>
   </footer>
+  <script>
+    const themeSwitch = document.getElementById('themeSwitch');
+    const storedTheme = () => localStorage.getItem('markdiv-theme');
+
+    // Sync the switch with the theme that the head script applied.
+    themeSwitch.checked = document.documentElement.dataset.theme === 'light';
+
+    themeSwitch.addEventListener('change', (event) => {
+      const theme = event.target.checked ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('markdiv-theme', theme);
+    });
+
+    // Follow the system until the visitor makes an explicit choice.
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
+      if (storedTheme()) return;
+      const theme = event.matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+      themeSwitch.checked = theme === 'light';
+    });
+  </script>
 </body>
 </html>
