@@ -1,4 +1,0 @@
-/* Build entry: order matters (base theme, token colors, local overrides). */
-@import "@picocss/pico/css/pico.min.css";
-@import "@highlightjs/cdn-assets/styles/github.min.css";
-@import "../css/rev1.css";

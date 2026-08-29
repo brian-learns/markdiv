@@ -17,9 +17,9 @@ npm run build
 
 - `dist/markdiv.min.js` — `index.js` plus marked, marked-highlight, and
   highlight.js, bundled and minified (IIFE)
-- `dist/markdiv.min.css` — Pico CSS, the highlight.js `github` theme, and
-  `css/rev1.css`, bundled and minified (see `build/css.css` to change the
-  theme or add files)
+- `dist/markdiv.min.css` — Pico CSS, highlight.js code themes, and
+  `css/rev1.css`, bundled and minified (see `build/build-css.mjs` to change
+  the themes or add files)
 
 Then reference them directly:
 
@@ -72,24 +72,27 @@ renderMarkdiv(document, {
 
 Fenced code blocks are highlighted with [highlight.js](https://highlightjs.org/)
 via [marked-highlight](https://github.com/IsaacW/marked-highlight) by default;
-fences without a recognized language are left plain. Link a highlight.js
-theme for token colors, e.g.:
+fences without a recognized language are left plain. Code elements get
+`class="hljs language-<lang>"`, so custom themes can target them directly.
 
-```html
-<link rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11/styles/github.min.css">
-```
+The bundled CSS ships two highlight.js themes, inverted against the page
+theme (set via `data-theme` on `<html>`, as Pico does):
 
-Code elements get `class="hljs language-<lang>"`, so custom themes can target
-them directly.
+| Page theme      | Code theme |
+| --------------- | ---------- |
+| (no attribute)  | light (`github`) |
+| `data-theme="light"` | dark (`github-dark`) |
+| `data-theme="dark"`  | light (`github`) |
+
+`index.html` is a working example of a theme switch that persists the
+choice in `localStorage` and falls back to the system preference.
 
 `renderMarkdiv` is idempotent — already-rendered elements are skipped.
 
-## Demos
+## Demo
 
-- `demo3.html` — blog template using the built `dist/` files (fully offline
-  after `npm run build`)
-- `demo.html` — minimal page using the CDN import map (needs network)
+`index.html` is a blog template using the built `dist/` files (fully offline
+after `npm run build`), with a light/dark theme switch in the footer.
 
 ## Deploy to GitHub Pages
 
@@ -98,9 +101,9 @@ git remote add origin git@github.com:<you>/<repo>.git
 npm run deploy
 ```
 
-`npm run deploy` builds and publishes a `site/` directory (demo3.html as
-`index.html` plus the two bundles under `dist/`, mirroring the local layout)
-to the `gh-pages` branch. Enable Pages in the repo settings with source
+`npm run deploy` builds and publishes a `site/` directory (`index.html`
+plus the two bundles under `dist/`, mirroring the local layout) to the
+`gh-pages` branch. Enable Pages in the repo settings with source
 **Deploy from a branch** → `gh-pages / (root)`.
 
 ## Tests
