@@ -58,9 +58,41 @@ export function renderMarkdiv(root = document, options = {}) {
   return elements;
 }
 
-// Auto-render when loaded in a browser.
+// Browser bootstrap: apply the theme before first paint, then render the
+// markdown and wire up the theme switch (index.html) once the DOM is ready.
 if (typeof document !== "undefined") {
-  const init = () => renderMarkdiv(document);
+  const THEME_KEY = "markdiv-theme";
+  const applyTheme = (theme) => document.documentElement.setAttribute("data-theme", theme);
+
+  // Saved theme wins; otherwise follow the system preference.
+  applyTheme(
+    localStorage.getItem(THEME_KEY) ||
+      (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+  );
+
+  const init = () => {
+    renderMarkdiv(document);
+
+    const themeSwitch = document.getElementById("themeSwitch");
+    if (!themeSwitch) return;
+
+    // Sync the switch with the theme that was applied above.
+    themeSwitch.checked = document.documentElement.dataset.theme === "light";
+
+    themeSwitch.addEventListener("change", (event) => {
+      const theme = event.target.checked ? "light" : "dark";
+      applyTheme(theme);
+      localStorage.setItem(THEME_KEY, theme);
+    });
+
+    // Follow the system until the visitor makes an explicit choice.
+    matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
+      if (localStorage.getItem(THEME_KEY)) return;
+      applyTheme(event.matches ? "dark" : "light");
+      themeSwitch.checked = !event.matches;
+    });
+  };
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
   } else {
