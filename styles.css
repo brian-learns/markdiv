@@ -1,0 +1,109 @@
+/* Default styles for markdiv-rendered markdown. */
+
+[data-format="markdown"] {
+  --md-font-size: 1rem;
+  --md-line-height: 1.6;
+  --md-heading-scale: 1.333;
+  --md-code-bg: rgba(127, 127, 127, 0.15);
+  --md-border: rgba(127, 127, 127, 0.3);
+  --md-link: #0066cc;
+
+  font-size: var(--md-font-size);
+  line-height: var(--md-line-height);
+  overflow-wrap: break-word;
+}
+
+/* Headings: markdown `#` renders as <h2> by default, so start there. */
+[data-format="markdown"] :is(h1, h2, h3, h4, h5, h6) {
+  margin: 1.4em 0 0.5em;
+  line-height: 1.25;
+  font-weight: 600;
+}
+
+[data-format="markdown"] h1 { font-size: calc(var(--md-font-size) * var(--md-heading-scale) * var(--md-heading-scale)); }
+
+[data-format="markdown"] h2 { font-size: calc(var(--md-font-size) * var(--md-heading-scale)); }
+[data-format="markdown"] h3 { font-size: calc(var(--md-font-size) * var(--md-heading-scale) * 0.825); }
+[data-format="markdown"] h4 { font-size: var(--md-font-size); }
+[data-format="markdown"] h5 { font-size: calc(var(--md-font-size) * 0.85); }
+[data-format="markdown"] h6 { font-size: calc(var(--md-font-size) * 0.75); color: rgba(0, 0, 0, 0.6); }
+
+[data-format="markdown"] p {
+  margin: 0.8em 0;
+}
+
+[data-format="markdown"] a {
+  color: var(--md-link);
+  text-decoration: none;
+}
+
+[data-format="markdown"] a:hover {
+  text-decoration: underline;
+}
+
+[data-format="markdown"] ul,
+[data-format="markdown"] ol {
+  margin: 0.8em 0;
+  padding-left: 1.5em;
+}
+
+[data-format="markdown"] li + li {
+  margin-top: 0.25em;
+}
+
+[data-format="markdown"] blockquote {
+  margin: 0.8em 0;
+  padding: 0.25em 1em;
+  border-left: 3px solid var(--md-border);
+  color: rgba(0, 0, 0, 0.7);
+}
+
+[data-format="markdown"] code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  background: var(--md-code-bg);
+  padding: 0.15em 0.35em;
+  border-radius: 4px;
+}
+
+[data-format="markdown"] pre {
+  margin: 0.8em 0;
+  padding: 0.8em 1em;
+  background: var(--md-code-bg);
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+[data-format="markdown"] pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.875em;
+}
+
+[data-format="markdown"] img {
+  max-width: 100%;
+}
+
+[data-format="markdown"] hr {
+  margin: 1.5em 0;
+  border: none;
+  border-top: 1px solid var(--md-border);
+}
+
+[data-format="markdown"] table {
+  margin: 0.8em 0;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+[data-format="markdown"] th,
+[data-format="markdown"] td {
+  padding: 0.4em 0.8em;
+  border: 1px solid var(--md-border);
+  text-align: left;
+}
+
+[data-format="markdown"] th {
+  background: var(--md-code-bg);
+  font-weight: 600;
+}

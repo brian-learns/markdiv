@@ -1,0 +1,22 @@
+html {
+  /* Fluid typography: text scales perfectly from mobile to wide desktops 
+     using a single mathematical calculation without jagged media queries */
+  font-size: clamp(1rem, 0.4vw + 0.9rem, 1.25rem);
+}
+
+body {
+  /* Maximum line-length constraint for modern panoramic monitors */
+  max-width: 70ch;
+  margin-inline: auto;
+  
+  /* Modern CSS text features */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  /* Eliminates single-word trailing lines (orphans) natively */
+  text-wrap: pretty;
+  /* Keeps headings tightly bound to their following paragraphs */
+  margin-bottom: 0.5em;
+}

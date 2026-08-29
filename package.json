@@ -1,0 +1,39 @@
+{
+  "name": "markdiv",
+  "version": "0.1.0",
+  "description": "Render markdown inside DOM elements marked with data-format=\"markdown\"",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js"
+  },
+  "files": [
+    "index.js",
+    "styles.css"
+  ],
+  "keywords": [
+    "markdown",
+    "marked",
+    "dom",
+    "inline"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "esbuild index.js --bundle --minify --format=iife --outfile=dist/markdiv.min.js && esbuild build/css.css --bundle --minify --outfile=dist/markdiv.min.css && cp demo3.html dist/index.html",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "highlight.js": "^11.12.0",
+    "marked": "^15.0.12",
+    "marked-highlight": "^2.2.4"
+  },
+  "devDependencies": {
+    "@highlightjs/cdn-assets": "^11.12.0",
+    "@picocss/pico": "^2.1.1",
+    "esbuild": "^0.28.2",
+    "gh-pages": "^6.3.0",
+    "jsdom": "^25.0.1"
+  }
+}
