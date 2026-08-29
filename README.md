@@ -98,9 +98,10 @@ git remote add origin git@github.com:<you>/<repo>.git
 npm run deploy
 ```
 
-`npm run deploy` builds and publishes `dist/` (demo3.html as `index.html`
-plus the two bundles) to the `gh-pages` branch. Enable Pages in the repo
-settings with source **Deploy from a branch** → `gh-pages / (root)`.
+`npm run deploy` builds and publishes a `site/` directory (demo3.html as
+`index.html` plus the two bundles under `dist/`, mirroring the local layout)
+to the `gh-pages` branch. Enable Pages in the repo settings with source
+**Deploy from a branch** → `gh-pages / (root)`.
 
 ## Tests
 

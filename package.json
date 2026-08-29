@@ -19,9 +19,9 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "esbuild index.js --bundle --minify --format=iife --outfile=dist/markdiv.min.js && esbuild build/css.css --bundle --minify --outfile=dist/markdiv.min.css && cp demo3.html dist/index.html",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
+    "build": "esbuild index.js --bundle --minify --format=iife --outfile=dist/markdiv.min.js && esbuild build/css.css --bundle --minify --outfile=dist/markdiv.min.css",
+    "predeploy": "npm run build && rm -rf site && mkdir -p site/dist && cp dist/markdiv.min.js dist/markdiv.min.css site/dist/ && cp demo3.html site/index.html",
+    "deploy": "gh-pages -d site",
     "test": "node --test"
   },
   "dependencies": {
