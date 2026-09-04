@@ -30,6 +30,27 @@ Then reference them directly:
 
 The script auto-renders every `[data-format="markdown"]` element on load.
 
+## Post table of contents
+
+The bundle ships a retro terminal-style post list (`.md-toc`, styled in
+`css/rev1.css`) for hand-written blog pages. It's plain HTML — no JS — so
+copy it into your home page, one `<li>` per post, newest first:
+
+```html
+<nav class="md-toc" aria-label="Posts">
+  <ul>
+    <li><a href="./nooa-demo-by-hax.html"><time datetime="2026-09-04">2026-09-04</time> ./nooa-demo-by-hax.html</a></li>
+    <li><a href="./foo.html"><time datetime="2026-08-29">2026-08-29</time> ./foo.html</a></li>
+  </ul>
+</nav>
+```
+
+The `gopher://` prompt line, ASCII gopher, scanlines, and blinking cursor
+are all CSS; the terminal stays dark in both page themes on purpose.
+Retune via the `--toc-*` custom properties, e.g.
+`style="--toc-title: 'gopher://example.com/1/journal'"`. `index.html`
+shows it in the kitchen sink.
+
 ## Browser (CDN, quick start)
 
 If you don't want to build, an import map works too:

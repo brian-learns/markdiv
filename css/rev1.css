@@ -20,3 +20,139 @@ h1, h2, h3 {
   /* Keeps headings tightly bound to their following paragraphs */
   margin-bottom: 0.5em;
 }
+
+/* ==========================================================================
+   .md-toc — retro terminal post list (gopher theme)
+
+   Plain hand-written HTML, no JS — one <li> per post, newest first:
+
+     <nav class="md-toc" aria-label="Posts">
+       <ul>
+         <li><a href="./post.html">
+           <time datetime="2026-09-04">2026-09-04</time> ./post.html</a></li>
+       </ul>
+     </nav>
+
+   All the chrome (gopher:// prompt line, ASCII gopher, scanlines, blinking
+   cursor) is CSS. The terminal stays dark in both page themes on purpose —
+   it is a CRT, not a card. Retune via the --toc-* custom properties, e.g.
+   style="--toc-title: 'gopher://example.com/1/journal'".
+   ========================================================================== */
+
+.md-toc {
+  --toc-bg: #0c110d;
+  --toc-fg: #8aff9b;
+  --toc-dim: #478052;
+  --toc-line: #233b2b;
+  --toc-glow: rgba(138, 255, 155, 0.35);
+
+  position: relative;
+  margin-block: 1.5rem;
+  padding: 1rem 1.25rem 1.25rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.9em;
+  line-height: 1.6;
+  color: var(--toc-fg);
+  background: var(--toc-bg);
+  border: 1px solid var(--toc-line);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 1.5rem var(--toc-glow), inset 0 0 3rem rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  text-shadow: 0 0 6px var(--toc-glow);
+}
+
+/* CRT scanlines */
+.md-toc::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.25) 0px,
+    rgba(0, 0, 0, 0.25) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+}
+
+/* ASCII gopher, top right */
+.md-toc::after {
+  /* \A (not \n): esbuild's CSS minifier mangles \n escapes in content strings */
+  content: "  .-\"\"-.\A  / o  o \\\A  (  ##  )\A   \\ '--' /";
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  white-space: pre;
+  font-size: 0.75em;
+  line-height: 1.2;
+  color: var(--toc-dim);
+}
+
+.md-toc ul {
+  /* Pico lays nav lists out as a flex row; this is a vertical list */
+  display: block;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* gopher:// prompt line */
+.md-toc ul::before {
+  content: var(--toc-title, "gopher://brian-learns.github.io/1/posts");
+  display: block;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-right: 7rem; /* leave room for the gopher */
+  color: var(--toc-dim);
+  border-bottom: 1px dashed var(--toc-line);
+}
+
+.md-toc li {
+  display: block;
+  margin: 0;
+}
+
+.md-toc a {
+  display: block;
+  padding-block: 0.1rem;
+  color: var(--toc-fg);
+  text-decoration: none;
+}
+
+.md-toc a time {
+  color: var(--toc-dim);
+}
+
+.md-toc a:hover,
+.md-toc a:focus-visible {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* blinking block cursor after the last entry */
+.md-toc li:last-child a::after {
+  content: "▌";
+  margin-left: 0.3rem;
+  animation: md-toc-blink 1.2s infinite;
+}
+
+@keyframes md-toc-blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .md-toc li:last-child a::after {
+    animation: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .md-toc::after {
+    display: none;
+  }
+  .md-toc ul::before {
+    padding-right: 0;
+  }
+}
